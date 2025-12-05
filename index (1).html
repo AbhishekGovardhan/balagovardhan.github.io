@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>B Govardhan | Embedded C & C++ Developer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #030712;
+      --card: #020617;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56,189,248,0.18);
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --border-subtle: rgba(148,163,184,0.45);
+      --chip-bg: rgba(15,23,42,0.9);
+      --radius-xl: 18px;
+      --shadow-soft: 0 18px 42px rgba(15,23,42,0.95);
+    }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body {
+      font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:
+        radial-gradient(circle at 0% 0%, #0b1120 0, transparent 55%),
+        radial-gradient(circle at 100% 0%, #0f172a 0, transparent 55%),
+        #020617;
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+    a { color: var(--accent); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 16px 40px;
+    }
+    header {
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      gap:20px;
+      padding:20px 22px;
+      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at top left,#111827 0,#020617 55%);
+      border: 1px solid rgba(148,163,184,0.55);
+      box-shadow: var(--shadow-soft);
+    }
+    .hero-main { max-width: 640px; }
+    .name {
+      font-size: clamp(1.9rem, 3.2vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      display:flex;
+      align-items:center;
+      gap:0.6rem;
+    }
+    .name span.emoji { font-size: 1.7rem; }
+    .subtitle {
+      margin-top:4px;
+      color: var(--text-muted);
+      font-size: 0.98rem;
+    }
+    .location { margin-top:6px; font-size:0.9rem; color:var(--text-muted); }
+    .contact {
+      margin-top:10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px 18px;
+      font-size:0.9rem;
+      color:var(--text-muted);
+    }
+    .contact span { display:inline-flex; align-items:center; gap:6px; }
+    .hero-actions {
+      min-width:220px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      align-items:flex-end;
+    }
+    .pill {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size:0.78rem;
+      padding:6px 13px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,0.6);
+      background: rgba(15,23,42,0.9);
+      color: var(--text-muted);
+    }
+    .pill .dot{
+      width:7px;height:7px;border-radius:999px;
+      background:#22c55e;
+      box-shadow:0 0 0 4px rgba(34,197,94,0.4);
+    }
+    .btn-row{ display:flex; flex-wrap:wrap; gap:10px; }
+    .btn{
+      border-radius:999px;
+      padding:8px 16px;
+      font-size:0.86rem;
+      font-weight:500;
+      border:1px solid transparent;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      cursor:pointer;
+      background:transparent;
+      color:var(--text-main);
+      text-decoration:none;
+      white-space:nowrap;
+      transition: transform 0.1s ease, box-shadow 0.1s ease, border-color 0.15s ease, background 0.15s ease;
+    }
+    .btn-primary{
+      background:linear-gradient(135deg,#38bdf8,#6366f1);
+      color:#020617;
+      box-shadow:0 12px 30px rgba(56,189,248,0.45);
+    }
+    .btn-primary:hover{
+      transform:translateY(-1px);
+      box-shadow:0 18px 40px rgba(37,99,235,0.6);
+    }
+    .btn-outline{
+      border-color:rgba(148,163,184,0.7);
+      background:rgba(15,23,42,0.92);
+    }
+    .btn-outline:hover{
+      border-color:var(--accent);
+      background:rgba(15,23,42,0.7);
+    }
+    main{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns:minmax(0,2.1fr) minmax(0,1.3fr);
+      gap:18px;
+    }
+    @media (max-width:860px){
+      main{ grid-template-columns:minmax(0,1fr); }
+      .hero-actions{ align-items:flex-start; }
+    }
+    section{
+      margin-bottom:18px;
+      padding:16px 18px 18px;
+      border-radius: var(--radius-xl);
+      background: rgba(15,23,42,0.96);
+      border:1px solid var(--border-subtle);
+      box-shadow:0 14px 34px rgba(15,23,42,0.9);
+    }
+    h2.section-title{
+      font-size:0.98rem;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      color:var(--text-muted);
+      margin-bottom:9px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    h2.section-title span.emoji{ font-size:1.2rem; }
+    .summary-text{ font-size:0.94rem; color:var(--text-main); }
+    .summary-text strong{ color:#f9fafb; }
+    .timeline{ display:flex; flex-direction:column; gap:14px; margin-top:6px; font-size:0.9rem; }
+    .item{
+      padding:10px 11px;
+      border-radius:14px;
+      background:var(--card);
+      border:1px solid rgba(55,65,81,0.95);
+    }
+    .item-header{
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-bottom:4px;
+    }
+    .role{ font-weight:600; font-size:0.95rem; }
+    .company{ font-size:0.88rem; color:var(--text-muted); }
+    .duration{
+      font-size:0.8rem;
+      padding:3px 8px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,0.7);
+      background:rgba(15,23,42,0.9);
+      color:var(--text-muted);
+    }
+    ul{ margin-left:18px; margin-top:4px; }
+    li{ margin-bottom:4px; }
+    .project-stack{
+      margin-top:5px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      font-size:0.8rem;
+    }
+    .chip{
+      padding:3px 9px;
+      border-radius:999px;
+      background:var(--chip-bg);
+      border:1px solid rgba(148,163,184,0.55);
+      color:var(--text-muted);
+    }
+    .badges-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+      gap:10px;
+      margin-top:6px;
+      font-size:0.86rem;
+    }
+    .badge-card{
+      background:var(--card);
+      border-radius:14px;
+      padding:9px 10px;
+      border:1px solid rgba(55,65,81,0.9);
+      display:flex;
+      flex-direction:column;
+      gap:3px;
+    }
+    .badge-title{
+      font-weight:600;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .stars{ font-size:0.8rem; color:#fbbf24; }
+    .skills-groups{ display:flex; flex-direction:column; gap:8px; font-size:0.9rem; }
+    .skills-row{ display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+    .skills-label{ font-weight:600; font-size:0.9rem; margin-right:4px; display:inline-flex; gap:4px; align-items:center; }
+    .education-card{
+      padding:10px 11px;
+      border-radius:14px;
+      background:var(--card);
+      border:1px solid rgba(55,65,81,0.9);
+      font-size:0.9rem;
+    }
+    .edu-title{ font-weight:600; margin-bottom:2px; }
+    .edu-meta{ font-size:0.84rem; color:var(--text-muted); }
+    .achievements-list{ font-size:0.9rem; }
+    .achievements-list li a{ word-break: break-all; }
+    footer{
+      margin-top:18px;
+      text-align:center;
+      font-size:0.78rem;
+      color:var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="hero-main">
+        <div class="name">
+          <span class="emoji">⚙️</span>
+          <span>B Govardhan</span>
+        </div>
+        <div class="subtitle">Embedded C &amp; C++ Developer • Avionics &amp; Embedded Systems 💻✈️</div>
+        <div class="location">📍 Bengaluru, India</div>
+        <div class="contact">
+          <span>📧 <a href="mailto:balusandy256@gmail.com">balusandy256@gmail.com</a></span>
+          <span>📱 <a href="tel:+917075151459">+91-7075151459</a></span>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <div class="pill">
+          <span class="dot"></span>
+          <span>Open to Embedded / Avionics roles</span>
+        </div>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="https://www.hackerrank.com/balusandy256" target="_blank" rel="noopener noreferrer">
+            🧠 View HackerRank Profile
+          </a>
+          <a class="btn btn-outline" href="https://www.hackerrank.com/certificates/0754d953d7e1" target="_blank" rel="noopener noreferrer">
+            📜 Problem Solving Certificate
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div>
+        <section>
+          <h2 class="section-title"><span class="emoji">🧾</span> Objective</h2>
+          <p class="summary-text">
+            Passionate <strong>Embedded Software Engineer</strong> with hands-on experience in avionics protocols
+            (<strong>MIL-STD-1553, ARINC 429</strong>), real-time data acquisition, embedded systems development,
+            and <strong>C++/MFC-based application design</strong>. Strong in data structures, low-level programming,
+            and hardware–software integration for <strong>aerospace</strong> and <strong>automotive</strong> domains.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="section-title"><span class="emoji">💼</span> Work Experience</h2>
+          <div class="timeline">
+            <div class="item">
+              <div class="item-header">
+                <div>
+                  <div class="role">Junior Software Engineer</div>
+                  <div class="company">ComAvia Systems Technologies Pvt. Ltd.</div>
+                </div>
+                <span class="duration">Apr 2024 – Aug 2025</span>
+              </div>
+              <ul>
+                <li>Contributed to avionics software development using <strong>C++, MFC, and ADO</strong> with Microsoft Access.</li>
+                <li>Designed GUI tools for handling data from multiple protocols: <strong>MIL-STD-1553, ARINC 429, CAN, Ethernet</strong>.</li>
+                <li>Collaborated in a <strong>5-member team</strong> to deliver scalable solutions across 3+ avionics platforms, increasing test coverage by <strong>35%</strong>.</li>
+                <li>Reduced manual data handling errors by <strong>40%</strong> through database automation and structured input validations.</li>
+                <li>Enhanced real-time monitoring tools with multi-threaded polling and dynamic views (graph, grid, raw), improving data analysis by <strong>25%</strong>.</li>
+                <li>Designed and implemented <strong>100%</strong> of a Portable Avionics Application for HAL, ensuring compliance with avionics standards and functional requirements.</li>
+              </ul>
+            </div>
+
+            <div class="item">
+              <div class="item-header">
+                <div>
+                  <div class="role">Product Development Intern</div>
+                  <div class="company">Kwality Photonics</div>
+                </div>
+                <span class="duration">Jan 2023 – Apr 2023</span>
+              </div>
+              <ul>
+                <li>Contributed to <strong>70%</strong> of hardware design and testing activities for LED-based display and lighting modules.</li>
+                <li>Achieved <strong>70–80%</strong> improvement in understanding optoelectronics, LED characteristics, and PCB design.</li>
+                <li>Contributed <strong>60–70%</strong> involvement in coordination with manufacturing and testing teams to ensure functionality and quality of LED products.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="section-title"><span class="emoji">📂</span> Projects</h2>
+          <div class="timeline">
+            <div class="item">
+              <div class="item-header">
+                <div>
+                  <div class="role">Portable Avionics Test Solution (PATS, PATS++, ASID, USAMS)</div>
+                  <div class="company">Windows • C++ • MFC • ADO • MS Access • Avionics Protocols</div>
+                </div>
+              </div>
+              <ul>
+                <li>Built a Windows-based avionics tool supporting <strong>5+ protocols</strong>, improving protocol data I/O speed by <strong>30%</strong>.</li>
+                <li>Integrated ADO with MS Access for seamless database operations, reducing query latency by <strong>40%</strong>.</li>
+                <li>Enhanced debugging by adding input forms, validations, and filter logic, reducing test analysis time by <strong>20%</strong>.</li>
+                <li>Developed a <strong>1553B real-time bus monitoring tool</strong> that improved visibility and issue detection by <strong>35%</strong>.</li>
+                <li>Implemented graph, list, and raw data views, helping engineers reduce analysis time by <strong>25%</strong> during field trials.</li>
+                <li>Used multi-threaded polling to maintain data flow under high load, achieving <strong>40%</strong> more stability during stress testing.</li>
+              </ul>
+              <div class="project-stack">
+                <span class="chip">🧩 C++ / MFC</span>
+                <span class="chip">🗄️ ADO + MS Access</span>
+                <span class="chip">✈️ MIL-STD-1553 / ARINC 429</span>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="item-header">
+                <div>
+                  <div class="role">A Handy Optical Wattmeter</div>
+                  <div class="company">Arduino • Embedded C • Sensors</div>
+                </div>
+              </div>
+              <ul>
+                <li>Designed and built an Arduino-based system to measure real-time power consumption using an energy meter’s pulsing LED as part of a <strong>3‑member team (100% contribution)</strong>.</li>
+                <li>Implemented <strong>100%</strong> pulse-counting logic to convert LED pulses into accurate power usage data (kWh/Watt calculations).</li>
+                <li>Achieved <strong>85–90%</strong> accuracy in real-time power indication by controlling an output LED’s brightness or pulse frequency for instantaneous visual feedback.</li>
+              </ul>
+              <div class="project-stack">
+                <span class="chip">🔌 Arduino</span>
+                <span class="chip">💡 Optical Sensing</span>
+                <span class="chip">⚡ Power Monitoring</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div>
+        <section>
+          <h2 class="section-title"><span class="emoji">🏅</span> HackerRank Badges</h2>
+          <div class="badges-grid">
+            <div class="badge-card">
+              <div class="badge-title">🧠 Problem Solving <span class="stars">★★★☆☆</span></div>
+              <div>Algorithmic thinking &amp; coding challenges.</div>
+            </div>
+            <div class="badge-card">
+              <div class="badge-title">💻 C++ <span class="stars">★★★★★</span></div>
+              <div>Strong C++ fundamentals and STL usage.</div>
+            </div>
+            <div class="badge-card">
+              <div class="badge-title">🔧 C Language <span class="stars">★★★★★</span></div>
+              <div>Low-level programming &amp; memory handling.</div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="section-title"><span class="emoji">🛠️</span> Technical Skills</h2>
+          <div class="skills-groups">
+            <div class="skills-row">
+              <span class="skills-label">💡 Programming:</span>
+              <span class="chip">C</span>
+              <span class="chip">C++</span>
+              <span class="chip">Data Structures</span>
+              <span class="chip">Python</span>
+              <span class="chip">Linux</span>
+              <span class="chip">Shell Scripting</span>
+            </div>
+            <div class="skills-row">
+              <span class="skills-label">📡 Protocols:</span>
+              <span class="chip">MIL-STD-1553</span>
+              <span class="chip">ARINC 429</span>
+              <span class="chip">UART</span>
+              <span class="chip">I2C</span>
+              <span class="chip">MQTT</span>
+              <span class="chip">HTTP/HTTPS</span>
+            </div>
+            <div class="skills-row">
+              <span class="skills-label">🧰 Tools:</span>
+              <span class="chip">MFC</span>
+              <span class="chip">ADO</span>
+              <span class="chip">Microsoft Access</span>
+              <span class="chip">Visual Studio</span>
+              <span class="chip">Code::Blocks</span>
+              <span class="chip">PyCharm</span>
+              <span class="chip">Ubuntu</span>
+            </div>
+            <div class="skills-row">
+              <span class="skills-label">🔌 Embedded:</span>
+              <span class="chip">8051</span>
+              <span class="chip">Arduino</span>
+              <span class="chip">PIC16F77A</span>
+              <span class="chip">ESP32</span>
+              <span class="chip">Raspberry Pi</span>
+              <span class="chip">Proteus</span>
+              <span class="chip">MPLAB</span>
+              <span class="chip">STM32</span>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="section-title"><span class="emoji">🎓</span> Education</h2>
+          <div class="education-card">
+            <div class="edu-title">B. Tech – Electrical and Electronics Engineering</div>
+            <div>Vel Tech University</div>
+            <div class="edu-meta">2019 – 2023 • Grade: 74.19%</div>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="section-title"><span class="emoji">🚀</span> Courses &amp; Achievements</h2>
+          <ul class="achievements-list">
+            <li>📘 Postgraduate Diploma in Embedded Systems Design and Development – CAADs, Bangalore.</li>
+            <li>🏆 <a href="https://www.hackerrank.com/certificates/0754d953d7e1" target="_blank" rel="noopener noreferrer">HackerRank Problem Solving (Basic) Certificate</a></li>
+            <li>💻 <a href="https://www.hackerrank.com/balusandy256" target="_blank" rel="noopener noreferrer">HackerRank Profile – @balusandy256</a></li>
+          </ul>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      © <span id="year"></span> B Govardhan • Embedded C &amp; C++ Developer Portfolio
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
